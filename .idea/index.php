@@ -2,35 +2,55 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>
+        <?php
+        print_title();
+        ?>
+    </title>
 </head>
 <body>
-    <h1>맺음</h1>
+    <h1><a href="index.php">맺음</a> </h1>
     <ol>
-        <li><a href="index.php?id=community">커뮤니티</a></li>
-        <li><a href="index.php?id=sports">스포츠</a></li>
-        <li><a href="index.php?id=used">중고</a></li>
-
+        <?php
+        $list = scandir('./data');
+        $i = 0;
+        while ($i < count($list)) {
+            if($list[$i] != '.'){
+                if ($list[$i] != '..'){
+                    echo "<li><a href=\"index.php?id=$list[$i]\">$list[$i]</a></li>\n";
+                }
+            }
+            $i = $i + 1;
+        }
+        ?>
     </ol>
     <h2>
         <?php
-        echo $_GET["id"];
+        print_list();
         ?>
         <?php
-        echo file_get_contents("data/".$_GET['id']);
+        print_title();
+        ?>
+        <?php
+        print_description();
+        ?>
+        <?php
+        if (isset($_GET['id'])) {
+            echo $_GET['id'];
+        }
+        else {
+            echo "Welcome";
+        }
         ?>
     </h2>
-    Lorem Ipsum is simply dummy text of the printing and
-    typesetting industry. Lorem Ipsum has been the
-    industry's standard dummy text ever since the 1500s,
-    when an unknown printer took a galley of type and
-    scrambled it to make a type specimen book. It has
-    survived not only five centuries, but also the leap
-    into electronic typesetting, remaining essentially
-    unchanged. It was popularised in the 1960s with the
-    release of Letraset sheets containing Lorem Ipsum
-    passages, and more recently with desktop publishing
-    software like Aldus PageMaker including versions of
-    Lorem Ipsum.
+        <?php
+        if (isset($_GET['id'])) {
+            echo file_get_contents("data/" . $_GET['id']);
+        }
+        else{
+            echo "Hello,PHP";
+        }
+        ?>
+
 </body>
 </html>
