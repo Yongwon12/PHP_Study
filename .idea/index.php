@@ -1,56 +1,29 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>
-        <?php
-        print_title();
-        ?>
-    </title>
-</head>
-<body>
-    <h1><a href="index.php">맺음</a> </h1>
-    <ol>
-        <?php
-        $list = scandir('./data');
-        $i = 0;
-        while ($i < count($list)) {
-            if($list[$i] != '.'){
-                if ($list[$i] != '..'){
-                    echo "<li><a href=\"index.php?id=$list[$i]\">$list[$i]</a></li>\n";
-                }
-            }
-            $i = $i + 1;
-        }
-        ?>
-    </ol>
+<?php
+require_once('lib/print.php');
+?>
+<?php
+require_once('view/top.php')
+?>
+    <a href="create.php">create</a>
+    <?php
+    if (isset($_GET['id'])) {
+    ?>
+    <a href="update.php?id=<?=$_GET['id']?>">update</a>
+        <form action="delete_process.php" method="post">
+            <input type="hidden" name="id" value="<?=$_GET['id']?>">
+            <input type="submit" value="delete">
+        </form>
+    <?php }
+    ?>
     <h2>
         <?php
-        print_list();
-        ?>
-        <?php
         print_title();
-        ?>
-        <?php
-        print_description();
-        ?>
-        <?php
-        if (isset($_GET['id'])) {
-            echo $_GET['id'];
-        }
-        else {
-            echo "Welcome";
-        }
         ?>
     </h2>
         <?php
-        if (isset($_GET['id'])) {
-            echo file_get_contents("data/" . $_GET['id']);
-        }
-        else{
-            echo "Hello,PHP";
-        }
+        print_description();
         ?>
 
-</body>
-</html>
+<?php
+require_once('view/bottom.php')
+?>
